@@ -1,0 +1,253 @@
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Explore</title>
+    <style>
+        .maindiv {
+        height: 500px;
+        width: 100vw;
+        border: 1px solid;
+        background-color: rgb(111, 3, 43);
+        }
+
+        .content {
+        margin-top: 70px;
+        color: rgb(233, 233, 200);
+        text-align: center;
+        }
+
+        .content h1 {
+        font-size: 35px;
+        }
+
+        .content pre {
+        font-size: 17px;
+        }
+
+        .buttons {
+        height: 35px;
+        width: 80%;
+        margin: 70px auto;
+        display: flex;
+        justify-content: space-around;
+        }
+
+        button {
+        background-color: rgb(111, 3, 43);
+        border: 1px solid rgb(233, 233, 200);
+        border-radius: 25px;
+        height: 35px;
+        color: rgb(233, 233, 200);
+        padding: 5px 35px;
+        }
+
+        button:hover {
+        background-color: rgb(233, 233, 200);
+        color: rgb(111, 3, 43);
+        cursor: pointer;
+        transition: 0.3s;
+        }
+
+        #pet_type {
+        padding: 5px 57px;
+        }
+
+        #pet_breed {
+        padding: 5px 56px;
+        }
+
+        #conditions {
+        padding: 5px 35px;
+        }
+        /* type container */
+        .pet-type-container {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        }
+
+        #petTypeDropdown {
+        position: absolute;
+        top: 45px; /* Adjust this value as needed */
+        display: none;
+        }
+
+        #petTypeDropdown select {
+        padding: 10px 20px;
+        border-radius: 10px;
+        font-size: 16px;
+        }
+        /* breed container */
+        .pet-breed-container{
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        #petBreedDropdown{
+            position: absolute;
+            top: 45px;
+            display: none;
+        }
+        #petBreedDropdown select{
+            padding: 10px 20px;
+            border-radius: 10px;
+            font-size: 16px;
+        }
+
+        .pet-conditions-container {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+#petConditionsDropdown {
+  position: absolute;
+  top: 45px;
+  display: none;
+}
+#petConditionsDropdown select {
+  padding: 10px 20px;
+  border-radius: 10px;
+  font-size: 16px;
+}
+
+        
+    </style>
+    </head>
+    <body>
+    <div class="maindiv">
+        <div class="content">
+        <h1>Explore</h1>
+        <pre>Because We Believe in 100% Transparency, We Believe in your entitlement</pre>
+        <pre>Know if your pet's Condition are Covered under our Policies</pre>
+        </div>
+        <div class="buttons">
+            <div class="pet-type-container">
+                <button id="pet_type">Pet Type</button>
+                <div id="petTypeDropdown">
+                    <select id="petTypeSelect">
+                    <!-- <option value="">-- Select Pet Type --</option>
+                    <option value="cat">Cat</option>
+                    <option value="dog">Dog</option> -->
+                    </select>
+                </div>
+            </div>
+            <div class="pet-breed-container">
+                <button id="pet_breed">Pet Breed</button>
+                <div id="petBreedDropdown">
+                    <select id="petBreedSelect">
+                        <!-- <option value="">--Select Pet Breed --</option> -->
+                    </select>
+                </div>
+            </div>
+            <div class="pet-conditions-container">
+                <button id="conditions">Conditions Covered</button>
+                <div id="petConditionsDropdown">
+                    <select id="petConditionsSelect"></select>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+
+        <!-- <button id="conditions">Conditions Covered</button> -->
+    <script>
+    const petTypeSelect = document.getElementById("petTypeSelect");
+    const petBreedSelect = document.getElementById("petBreedSelect");
+    const petBreedDropdown = document.getElementById("petBreedDropdown");
+    const petConditionsDropdown = document.getElementById("petConditionsDropdown");
+    const petConditionsSelect = document.getElementById("petConditionsSelect");
+
+    const breeds = {
+        cat: [
+            "Persian", "Maine Coon", "Siamese", "Bengal", "Ragdoll",
+            "British Shorthair", "Sphynx", "Scottish Fold", "Abyssinian", "Russian Blue"
+        ],
+        dog: [
+            "Labrador", "German Shepherd", "Golden Retriever", "Bulldog", "Poodle",
+            "Beagle", "Boxer", "Dachshund", "Rottweiler", "Shih Tzu"
+        ]
+    };
+
+    const conditions = {
+        cat: [
+            "Hairballs",
+            "Feline Leukemia Virus",
+            "Urinary Tract Infections",
+            "Dental Disease",
+            "Worms"
+        ],
+        dog: [
+            "Hip Dysplasia",
+            "Parvovirus",
+            "Ear Infections",
+            "Kennel Cough",
+            "Heartworm"
+        ]
+    };
+
+    window.addEventListener("DOMContentLoaded", () => {
+        const petTypes = ["Cat", "Dog"];
+        petTypeSelect.innerHTML = '<option value="">-- Select Pet Type --</option>';
+        petTypes.forEach(type => {
+            const option = document.createElement("option");
+            option.value = type.toLowerCase();
+            option.textContent = type;
+            petTypeSelect.appendChild(option);
+        });
+    });
+
+    document.getElementById("pet_type").addEventListener("click", function () {
+        const dropdown = document.getElementById("petTypeDropdown");
+        dropdown.style.display = dropdown.style.display === "block" ? "none" : "block";
+    });
+
+    document.getElementById("conditions").addEventListener("click", function () {
+        const dropdown = document.getElementById("petConditionsDropdown");
+        if (petTypeSelect.value) {
+            populateConditions(petTypeSelect.value);
+            dropdown.style.display = dropdown.style.display === "block" ? "none" : "block";
+        } else {
+            alert("Please select a Pet Type first.");
+        }
+    });
+
+    petTypeSelect.addEventListener("change", function () {
+        const selectedType = this.value;
+        petBreedSelect.innerHTML = '<option value="">-- Select Pet Breed --</option>';
+        petConditionsSelect.innerHTML = '<option value="">-- Select Condition --</option>';
+        petConditionsDropdown.style.display = "none";
+
+        if (selectedType && breeds[selectedType]) {
+            breeds[selectedType].forEach(breed => {
+                const option = document.createElement("option");
+                option.value = breed.toLowerCase().replace(/\s/g, "-");
+                option.textContent = breed;
+                petBreedSelect.appendChild(option);
+            });
+            petBreedDropdown.style.display = "block";
+        } else {
+            petBreedDropdown.style.display = "none";
+        }
+    });
+
+    function populateConditions(petType) {
+        petConditionsSelect.innerHTML = '<option value="">-- Select Condition --</option>';
+        if (conditions[petType]) {
+            conditions[petType].forEach(cond => {
+                const option = document.createElement("option");
+                option.value = cond.toLowerCase().replace(/\s/g, "-");
+                option.textContent = cond;
+                petConditionsSelect.appendChild(option);
+            });
+        }
+    }
+</script>
+
+    </body>
+    </html>
